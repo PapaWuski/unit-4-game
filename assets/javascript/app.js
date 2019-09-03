@@ -32,15 +32,15 @@ var char = {
 
 function createChar(num, target) {
   for (var i = 0; i < num; i++) {
-    $col = $("<div>")
-    $($col).attr("class", `col-md-3 characters char${i}`);
-    var $card = $("<div>");
-    $($card).addClass(`card`);
     var $cardBody = $("<div>").addClass("card-body")
-    var $cardName = $("<h5>");
+    var $cardName = $("<h3>");
+    var $card = $("<div>");
+    var $imgTag = $("<img>");
+    $col = $("<div>")
+    $($card).addClass(`card`);
+    $($col).attr("class", `col-md-3 characters char${i}`);
     $($cardName).addClass("card-title");
     $($cardName).text(`${char[i].name}`);
-    var $imgTag = $("<img>");
     $($imgTag).attr("class", 'card-img-top');
     $($imgTag).attr("src", `https://picsum.photos/id/${i}/200`);
     $($cardBody).append($imgTag);
@@ -53,7 +53,7 @@ function createChar(num, target) {
 }
 
 function generateBoard() {
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 4; i++) {
     $row = $("<div>");
     if (i === 0) {
         createChar(4, $row);
@@ -61,9 +61,12 @@ function generateBoard() {
     $($row).attr("class", `row row${i}`);
     $($root).append($row);
   }
-  $($btn).addClass("attack");
-  $(".row2").append($btn);
+  $col = $("<div>")
+  $($col).addClass("col-md-3");
+  $($btn).addClass("attack btn-lg btn-primary btn m-1");
   $($btn).text("Attack!");
+  $($col).append($btn);
+  $(".row2").append($col);
   $($btn).hide();
 }
 
@@ -76,13 +79,20 @@ $(document).on("click", ".characters", function() {
   $(".characters").removeClass("characters");
   $(this).addClass("mainCharacter");
   $(".row1").append($(".enemy"));
+  $(".enemy .card").addClass("bg-danger");
+  $(".mainCharacter .card").addClass("bg-primary");
 });
 
 $(document).on("click", ".enemy", function() {
     $(".enemy")
       .not(this)
       .removeClass("enemy");
-  $(".row2").append(this);
+  $(".row3").append(this);
   $(this).addClass("currentTarget");
+    $(".currentTarget .card").removeClass("bg-danger");
+    $(".currentTarget .card").addClass("bg-warning");
   $($btn).show();
+});
+$(document).on("click","attack", function () {
+    $(selector).val();
 });
