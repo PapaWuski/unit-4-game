@@ -1,24 +1,24 @@
 var char = {
   0: {
-    name: "Obi-Wan Kenobi",
+    name: "Panda",
     hp: 120,
     atk: 8,
     def: 8
   },
   1: {
-    name: "Luke Skywalker",
+    name: "Elephant",
     hp: 100,
     atk: 5,
     def: 5
   },
   2: {
-    name: "Darth Sidus",
+    name: "Hippo",
     hp: 150,
     atk: 20,
     def: 20
   },
   3: {
-    name: "Darth Maul",
+    name: "Dolphin",
     hp: 180,
     atk: 25,
     def: 25
@@ -40,7 +40,7 @@ function createChar(num, target) {
     $($cardName).text(`${char[i].name}`);
 
     $($imgTag).attr("class", "card-img-top");
-    $($imgTag).attr("src", `https://picsum.photos/id/${i}/200`);
+    $($imgTag).attr("src", `./assets/images/${i}.png`);
 
     $($cardText).addClass("card-text");
     $($cardText).append(`HP: <span class="health" >${char[i].hp}</span>`);
