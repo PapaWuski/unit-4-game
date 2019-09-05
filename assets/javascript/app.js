@@ -58,9 +58,12 @@ function createChar(num, target) {
 }
 
 function generateBoard() {
-  var $root = $(".container");
-  var $btn = $("<button>");
-  var $row = $("<div>");
+  var $mainRow = $("<div>")
+  $($mainRow).addClass("row");
+  var $root = $("<div>");
+  $($root).addClass("col-md-9 gameBoard");
+  var $score =  $("<div>");
+  $($score).addClass("col-md-3 score p-5");
   for (var i = 0; i < 4; i++) {
     $row = $("<div>");
     if (i === 0) {
@@ -69,9 +72,15 @@ function generateBoard() {
     $($row).attr("class", `row row${i}`);
     $($root).append($row);
   }
-  $col = $("<div>");
-  $btn = $("<btn>");
-  $($col).addClass("col-md-3");
+  
+  $($mainRow).append($score);
+  $($mainRow).append($root);
+  $(".container").append($mainRow);
+
+
+  var $col = $("<div>");
+  var $btn = $("<button>");
+  $($col).addClass("col-md-12");
   $($btn).addClass("attack btn-lg btn-primary btn m-1");
   $($btn).text("Attack!");
   $($col).append($btn);
@@ -79,7 +88,6 @@ function generateBoard() {
   $($btn).hide();
 }
 
-generateBoard();
 
 $(document).on("click", ".characters", function() {
   $(".characters")
@@ -116,6 +124,7 @@ $(document).on("click", ".attack", function() {
   enemyHealth -= playerAttack;
   $(".currentTarget .health").text(enemyHealth);
   if (enemyHealth <= 0) {
+    updateScore(playerAttack,enemyAttack,true)
     $(".currentTarget").attr("class", "dead");
     $(".dead").hide();
     $(".standby")
@@ -134,8 +143,8 @@ $(document).on("click", ".attack", function() {
   if (playerHealth <= 0) {
     gameOver("Lose")
   }
+  updateScore(playerAttack,enemyAttack,false)
   $(".mainCharacter .card-text").attr("atk",playerAttack+=playerBoost);
-  console.log(playerAttack)
 });
 
 function gameOver(gameState){
@@ -169,3 +178,24 @@ $(document).on("click", ".reset", function() {
   $(".container").empty();
   generateBoard();
 });
+
+function updateScore (playerAttack,enemyAttack,dead){
+  if (dead){
+  var $winText = $("<h6>")
+  $($winText).text("Target has been defeated! Select another one!");
+  $(".score").empty()
+  $(".score").append($winText);
+  }else {
+  var $player = $("<h6>")
+  $($player).text(`You dealt ${playerAttack}!`);
+  var $enemy = $("<h6>")
+  $($enemy).text(`The enemy dealt ${enemyAttack}!`);
+  $(".score").empty()
+  $(".score").append($player);
+  $(".score").append($enemy);
+  }
+  
+  
+}
+
+generateBoard();
