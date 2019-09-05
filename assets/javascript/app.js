@@ -1,39 +1,38 @@
 var char = {
   0: {
-    name: "Char1",
-    hp: 50,
-    atk: 5,
-    def: 5
+    name: "Obi-Wan Kenobi",
+    hp: 120,
+    atk: 8,
+    def: 8
   },
   1: {
-    name: "Char2",
-    hp: 20,
+    name: "Luke Skywalker",
+    hp: 100,
     atk: 5,
     def: 5
   },
   2: {
-    name: "Char3",
-    hp: 20,
-    atk: 5,
-    def: 5
+    name: "Darth Sidus",
+    hp: 150,
+    atk: 20,
+    def: 20
   },
   3: {
-    name: "Char4",
-    hp: 20,
-    atk: 5,
-    def: 5
+    name: "Darth Maul",
+    hp: 180,
+    atk: 25,
+    def: 25
   }
 };
 
 function createChar(num, target) {
-  var $col = $("<div>");
   for (var i = 0; i < num; i++) {
+    var $col = $("<div>");
     var $cardBody = $("<div>").addClass("card-body");
     var $cardName = $("<h3>");
     var $card = $("<div>");
     var $imgTag = $("<img>");
     var $cardText = $("<p>");
-    $col = $("<div>");
     $($card).addClass(`card`);
     $($col).attr("class", `col-md-3 characters char${i}`);
 
@@ -126,19 +125,47 @@ $(document).on("click", ".attack", function() {
     $(".attack").hide();
     const remainingEnemies = $(".enemy").length + $(".standby").length;
     if (!remainingEnemies) {
-      console.log("youwin"); // place function for victory
+      gameOver("Win")
     }
     return null;
   }
   playerHealth -= enemyAttack;
   $(".mainCharacter .health").text(playerHealth);
   if (playerHealth <= 0) {
-    $(".container").empty(); //place function for losing
-    generateBoard();
-    return null;
+    gameOver("Lose")
   }
   $(".mainCharacter .card-text").attr("atk",playerAttack+=playerBoost);
   console.log(playerAttack)
 });
 
-$(document).on("click", "reset", function() {});
+function gameOver(gameState){
+  $(".container").empty();
+  
+  $(".container").empty();
+  for (let i = 0; i < 2; i++) {
+    var $row = $("<div>")
+    $($row).addClass("row");
+    var $col = $("<div>")
+    $($col).addClass("col-md-12 text-center my-5");
+    
+    var $text =  $("<h1>")
+    var $btn = $("<button>")
+    if (i === 0){
+      $($text).text(`You ${gameState}!`);
+      $($col).append($text);
+    } else {
+      $($btn).text("Restart?");
+      $($btn).addClass(" btn-lg btn-primary btn reset");
+      $($col).append($btn);
+    }
+    $(".container").append($col);
+
+    
+  }
+}
+
+$(document).on("click", ".reset", function() {
+
+  $(".container").empty();
+  generateBoard();
+});
