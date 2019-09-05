@@ -58,6 +58,21 @@ function createChar(num, target) {
 }
 
 function generateBoard() {
+  var $titleRow = $("<div>")
+  $($titleRow).addClass("row");
+  var $gameName = $("<div>");
+  $($gameName).addClass("col-md-12 gameName text-center");
+  $($gameName).append("<h1>RPG Game</h1>");
+  $($titleRow).append($gameName);
+  
+  var $instRow = $("<div>")
+  $($instRow).addClass("row");
+  var $instructions = $("<div>");
+  $($instructions).addClass("col-md-12  text-center");
+  $($instructions).append(`<h3 class="instructions">Select a Character.</h3>`);
+  $($instRow).append($instructions);
+  
+  
   var $mainRow = $("<div>")
   $($mainRow).addClass("row");
   var $root = $("<div>");
@@ -75,6 +90,9 @@ function generateBoard() {
   
   $($mainRow).append($score);
   $($mainRow).append($root);
+
+  $(".container").append($gameName);
+  $(".container").append($instRow);
   $(".container").append($mainRow);
 
 
@@ -98,6 +116,7 @@ $(document).on("click", ".characters", function() {
   $(".row1").append($(".enemy"));
   $(".enemy .card").addClass("bg-danger");
   $(".mainCharacter .card").addClass("bg-primary");
+  $(".instructions").text("Select a Enemy to fight.");
 });
 
 $(document).on("click", ".enemy", function() {
@@ -113,6 +132,7 @@ $(document).on("click", ".enemy", function() {
   $(".currentTarget .card").removeClass("bg-danger");
   $(".currentTarget .card").addClass("bg-warning");
   $(".attack").show();
+  $(".instructions").text("Attack the Enemy!");
 });
 
 $(document).on("click", ".attack", function() {
@@ -124,6 +144,7 @@ $(document).on("click", ".attack", function() {
   enemyHealth -= playerAttack;
   $(".currentTarget .health").text(enemyHealth);
   if (enemyHealth <= 0) {
+    $(".instructions").text("Select a Enemy to fight.");
     updateScore(playerAttack,enemyAttack,true)
     $(".currentTarget").attr("class", "dead");
     $(".dead").hide();
